@@ -1,8 +1,5 @@
 import burgerapi.OrderClient;
 import burgerapi.UserClient;
-import dto.UserCreate;
-import dto.UserLogin;
-import io.qameta.allure.Description;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import model.Order;
@@ -17,34 +14,23 @@ import static org.hamcrest.CoreMatchers.*;
 import static org.hamcrest.MatcherAssert.assertThat;
 
 
-
 public class OrderCreateTest {
 
     User user;
-
-    UserLogin userLogin;
     UserClient userClient;
-    UserCreate userCreate;
     private Order order;
     private OrderClient orderClient;
     private ArrayList<String> userIngredientsList;
-
-    String name;
-    String email;
-    String password;
-
     private String accessToken;
-    private String refreshToken;
 
     @Before
     public void setUp(){
         userClient = new UserClient();
-        user = UserCreate.getRandomUser();
+        user = User.getRandomUser();
         userClient.create(user);
 
         ValidatableResponse loginResponse = userClient.login(user);
         accessToken = loginResponse.log().all().extract().path("accessToken"); //.toString()
-        refreshToken = loginResponse.extract().path("refreshToken"); //.toString()
 
         orderClient = new OrderClient();
         ValidatableResponse orderIngredientList = orderClient.getIngredients();
@@ -58,7 +44,9 @@ public class OrderCreateTest {
 
     @After
     public void tearDown(){
-        userClient.delete(accessToken);
+        if (accessToken != null) {
+            userClient.delete(accessToken);
+        }
     }
 
     @Test

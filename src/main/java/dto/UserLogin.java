@@ -1,13 +1,12 @@
 package dto;
-import dto.UserCreate;
 
 import io.qameta.allure.Step;
+import model.User;
 import org.apache.commons.lang3.RandomStringUtils;
 
-public class UserLogin extends UserCreate{
+public class UserLogin extends User{
     private String email;
     private String password;
-    public static String accessToken;
 
     public UserLogin(String email, String password) {
         this.email = email;
@@ -24,9 +23,9 @@ public class UserLogin extends UserCreate{
     }
 
     @Step("Получение логина и пароля из данных о регистрации.")
-    public static UserLogin from(UserCreate userCreate) {
+    public static UserLogin from(User user) {
 
-        return new UserLogin(userCreate.email, userCreate.password);
+        return new UserLogin(user.getEmail(), user.getPassword());
 
     }
 

@@ -3,13 +3,10 @@ package burgerapi;
 import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
 import model.Order;
-import model.User;
 
 import static io.restassured.RestAssured.given;
 
 public class OrderClient extends ApiClient{
-
-    public static String accessToken;
 
     private static final String ORDER = "/orders";
     private static final String INGREDIENT = "/ingredients";

@@ -3,7 +3,7 @@ package model;
 import java.util.ArrayList;
 
 public class Order {
-    ArrayList<String> ingredients;
+    private ArrayList<String> ingredients;
 
     public Order(ArrayList<String> ingredients) {
         this.ingredients = ingredients;

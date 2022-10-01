@@ -1,6 +1,7 @@
 package model;
 
 import dto.UserLogin;
+import org.apache.commons.lang3.RandomStringUtils;
 
 public class User {
     private String name;
@@ -15,6 +16,32 @@ public class User {
 
     public User() {
     }
+
+    public static User getRandomUser() {
+        final String name = RandomStringUtils.randomAlphabetic(9);
+        final String email = RandomStringUtils.randomAlphabetic(8) + "@" + RandomStringUtils.randomAlphabetic(4) + ".ru";
+        final String password = RandomStringUtils.randomAlphabetic(9);
+        return new User(name,email,password);
+    }
+
+    public static User getRandomUserWithoutEmail() {
+        final String name = RandomStringUtils.randomAlphabetic(9);
+        final String password = RandomStringUtils.randomAlphabetic(9);
+        return new User(name,null,password);
+    }
+
+    public  String name(){ //static
+        return RandomStringUtils.randomAlphabetic(8);
+    }
+
+    public static String email(){
+        return RandomStringUtils.randomAlphabetic(8)+ "@ya.ru";
+    }
+
+    public static String password(){
+        return RandomStringUtils.randomAlphabetic(8);
+    }
+
 
     public String getName() {
         return name;
@@ -42,5 +69,14 @@ public class User {
 
     public UserLogin getCredentials(){
         return new UserLogin(email,password);
+    }
+
+    @Override
+    public String toString() {
+        return "User{" +
+                "name='" + name + '\'' +
+                ", email='" + email + '\'' +
+                ", password='" + password + '\'' +
+                '}';
     }
 }

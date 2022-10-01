@@ -1,13 +1,10 @@
 import burgerapi.OrderClient;
 import burgerapi.UserClient;
-import dto.UserCreate;
-import dto.UserLogin;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import model.Order;
 import model.User;
 import org.junit.After;
-import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
 import static org.apache.http.HttpStatus.*;
@@ -26,18 +23,16 @@ public class OrderListTest {
 
 
     private String accessToken;
-    private String refreshToken;
 
     @Before
     public void setUp(){
         userClient = new UserClient();
-        user = UserCreate.getRandomUser();
+        user = User.getRandomUser();
         orderClient = new OrderClient();
         userClient.create(user);
 
         ValidatableResponse loginResponse = userClient.login(user);
         accessToken = loginResponse.log().all().extract().path("accessToken"); //.toString()
-        refreshToken = loginResponse.extract().path("refreshToken"); //.toString()
 
         orderClient = new OrderClient();
         ValidatableResponse orderIngredientList = orderClient.getIngredients();
@@ -54,7 +49,9 @@ public class OrderListTest {
 
     @After
     public void tearDown(){
-        userClient.delete(accessToken);
+        if (accessToken != null) {
+            userClient.delete(accessToken);
+        }
     }
 
     @Test

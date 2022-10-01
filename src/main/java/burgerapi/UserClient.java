@@ -1,16 +1,13 @@
 package burgerapi;
 
-import dto.UserCreate;
 import dto.UserLogin;
 import io.qameta.allure.Step;
 import io.restassured.response.ValidatableResponse;
 import model.User;
 
-import static burgerapi.ApiClient.*;
 import static io.restassured.RestAssured.given;
 
 public class UserClient extends ApiClient{
-    public static String accessToken;
 
     @Step("Создание пользователя")
     public static ValidatableResponse create(User user){

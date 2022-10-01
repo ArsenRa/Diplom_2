@@ -1,6 +1,4 @@
 import burgerapi.UserClient;
-import dto.UserCreate;
-import dto.UserLogin;
 import io.qameta.allure.junit4.DisplayName;
 import io.restassured.response.ValidatableResponse;
 import model.User;
@@ -18,17 +16,13 @@ import static org.hamcrest.MatcherAssert.assertThat;
 @RunWith(Parameterized.class)
 public class UserUpdateWithoutAuthTest {
     User user;
-
-    UserLogin userLogin;
     UserClient userClient;
-    UserCreate userCreate;
 
     String name;
     String email;
     String password;
 
     private String accessToken;
-    private String refreshToken;
 
     public UserUpdateWithoutAuthTest(String name,String email,String password) {
         this.name = name;
@@ -39,17 +33,19 @@ public class UserUpdateWithoutAuthTest {
     @Before
     public void setUp(){
         userClient = new UserClient();
-        user = UserCreate.getRandomUser();
+        user = User.getRandomUser();
         userClient.create(user);
 
         ValidatableResponse loginResponse = userClient.login(user);
         accessToken = loginResponse.log().all().extract().path("accessToken"); //.toString()
-        refreshToken = loginResponse.extract().path("refreshToken"); //.toString()
+
     }
 
     @After
     public void tearDown(){
-        userClient.delete(accessToken);
+        if (accessToken != null) {
+            userClient.delete(accessToken);
+        }
     }
 
     @Parameterized.Parameters
