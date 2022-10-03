@@ -9,6 +9,7 @@ import org.junit.Test;
 import static org.apache.http.HttpStatus.*;
 import static org.hamcrest.CoreMatchers.equalTo;
 import static org.hamcrest.MatcherAssert.assertThat;
+import static org.junit.Assert.assertNull;
 
 public class UserLoginTest {
     User user;
@@ -36,6 +37,8 @@ public class UserLoginTest {
     public void loginWrongCredsUserTest() {
         user = User.getRandomUserWithoutEmail();
         ValidatableResponse loginResponse = userClient.login(user);
+        accessToken = loginResponse.log().all().extract().path("accessToken");
+        assertNull(accessToken);
         int statusCode = loginResponse.log().all().extract().statusCode();
         boolean responseOk = loginResponse.log().all().extract().path("success");
         assertThat("401", statusCode, equalTo(SC_UNAUTHORIZED));

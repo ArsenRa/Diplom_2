@@ -21,7 +21,10 @@ public class OrderCreateTest {
     private Order order;
     private OrderClient orderClient;
     private ArrayList<String> userIngredientsList;
+
+    private ArrayList<String> myIngredientsListWithWrongIngredients;
     private String accessToken;
+
 
     @Before
     public void setUp(){
@@ -40,6 +43,10 @@ public class OrderCreateTest {
         userIngredientsList.add(idIngredientsList.get(0));
         userIngredientsList.add(idIngredientsList.get(1));
         userIngredientsList.add(idIngredientsList.get(3));
+
+        myIngredientsListWithWrongIngredients = new ArrayList<String>();
+        myIngredientsListWithWrongIngredients.add("61c0c5a71d1f82001bdaaa703");
+
     }
 
     @After
@@ -109,12 +116,10 @@ public class OrderCreateTest {
     @Test
     @DisplayName("Создание заказа авторизованным пользователем с некорректными ингредиентами")
     public void orderCreateWithLoginWrongIngredients() throws Exception{
-
-        ArrayList<String> myIngredientsListWithWrongIngredients = new ArrayList<String>();
-        myIngredientsListWithWrongIngredients.add("61c0c5a71d1f82001bdaaa703");
         order = new Order(myIngredientsListWithWrongIngredients);
         ValidatableResponse orderCreateResponse = orderClient.createOrder(new Order(order.getIngredients()), accessToken);
         int statusCode = orderCreateResponse.extract().statusCode();
         assertThat("Status code couldn't be 500", statusCode, equalTo(SC_INTERNAL_SERVER_ERROR));
+
     }
 }

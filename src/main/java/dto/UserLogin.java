@@ -4,7 +4,7 @@ import io.qameta.allure.Step;
 import model.User;
 import org.apache.commons.lang3.RandomStringUtils;
 
-public class UserLogin extends User{
+public class UserLogin { //extends
     private String email;
     private String password;
 
@@ -27,6 +27,10 @@ public class UserLogin extends User{
 
         return new UserLogin(user.getEmail(), user.getPassword());
 
+    }
+
+    public UserLogin getCredentials(){
+        return new UserLogin(email,password);
     }
 
     @Override

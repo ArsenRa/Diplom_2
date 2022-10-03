@@ -67,10 +67,6 @@ public class User {
         this.password = password;
     }
 
-    public UserLogin getCredentials(){
-        return new UserLogin(email,password);
-    }
-
     @Override
     public String toString() {
         return "User{" +
